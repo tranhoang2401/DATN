@@ -1,16 +1,3 @@
-# ⭐ AnPhat Cloud
-
-## Giới thiệu
-
-AnPhat Cloud là giải pháp quản lý bệnh viện thông minh trên nền tảng điện toán đám mây.
-
-### Thông tin liên hệ:
-
-CÔNG TY TNHH Y TẾ THÔNG MINH AN PHÁT
-
-- Hotline: 0912546668
-- Website: https://anphat.ai.vn
-- Địa chỉ: Tầng 8 - Tòa nhà Sở Thông tin và Truyền thông Hà Nội – Số 185 Giảng Võ – Đống Đa – TP.Hà Nội
 
 ## 🛠️ Công nghệ
 
