@@ -55,17 +55,25 @@ export const disciplineRouter = createTRPCRouter({
 
   update: protectedProcedure
     .input(
-      z.object({
-        id: z.string().uuid(), // ID của trường học cần cập nhật
-        data: z.object({ ...dataModel.shape }).partial() // Dữ liệu trường học cần cập nhật
-      })
+      z
+        .object({
+          id: z.string()
+        })
+        .extend(dataModel.shape)
     )
     .mutation(async ({ ctx, input }) => {
-      const { error, data } = await ctx.supabase.from("discipline").update(toEntity(input.data)).eq("id", input.id).single();
+      const { id, ...data } = input;
+      const { error, data: updatedData } = await ctx.supabase
+        .from("discipline")
+        .update(toEntity(data))
+        .eq("id", id)
+        .single();
+
       if (error) {
-        throw new Error(`Failed to update school with ID ${input.id}: ${error.message}`);
+        throw new Error(`Failed to update school with ID ${id}: ${error.message}`);
       }
-      return { data, error }; // Trả về trường học sau khi cập nhật
+
+      return { data: updatedData }; // Return the updated school data
     }),
 
   delete: protectedProcedure.input(idValidator).mutation(async ({ ctx, input }) => {

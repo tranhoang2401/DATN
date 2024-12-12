@@ -132,7 +132,7 @@ const AccessProcessPage = (params) => {
                 isUpdating,
                 async (values) => {
                   const res = await update(values);
-                  if (!res.error) modals.close("update-AccessProcess");
+                  if (!res) modals.close("update-AccessProcess");
                 },
                 row.original,
                 "lg"

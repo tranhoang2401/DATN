@@ -132,7 +132,7 @@ const AdvancedTrainingPage = (params) => {
                 isUpdating,
                 async (values) => {
                   const res = await update(values);
-                  if (!res.error) modals.close("update-AdvancedTraining");
+                  if (!res) modals.close("update-AdvancedTraining");
                 },
                 row.original,
                 "lg"

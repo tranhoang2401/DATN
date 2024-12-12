@@ -26,9 +26,28 @@ const StaffForm: FC<Props> = ({ data, isSubmitting, onSubmit, onClose }) => {
 
   const { data: staffData, isLoading } = api.staffs.getById.useQuery(params.code as string);
   const form = useForm({
-    initialValues: {
-      ...data
-    },
+    initialValues: data
+      ? {
+          ...data,
+          dob: new Date(Number(data.dob))
+        }
+      : {
+          name: "",
+          school_code: "",
+          code: "",
+          dob: undefined,
+          gender: "",
+          employmentstatus: "",
+          idcard: "",
+          pid: "",
+          email: "",
+          phonenumber: "",
+          ethnicity: "",
+          religion: "",
+          socialinsurancenumber: "",
+          address: "",
+          hometown: ""
+        },
     validateInputOnChange: true,
     validate: {}
   });
@@ -64,7 +83,11 @@ const StaffForm: FC<Props> = ({ data, isSubmitting, onSubmit, onClose }) => {
               placeholder="Chọn giới tính"
               {...form.getInputProps("gender")}
             />
-            <TextInput label="Trạng thái công việc" {...form.getInputProps("employmentStatus")} />
+            <Select
+              label="Trạng thái công việc"
+              data={["Hoạt động", "Ngừng hoạt động", "Khác"]}
+              {...form.getInputProps("employmentStatus")}
+            />
           </Flex>
 
           {/* Row 3 */}

@@ -8,3 +8,4 @@ export type Staff = Database["public"]["Tables"]["staffs"]["Row"];
 export type AccessProcess = Database["public"]["Tables"]["assessprofessionalstandards"]["Row"];
 export type AdvancedTrain = Database["public"]["Tables"]["advancedtraining"]["Row"];
 export type Student = Database["public"]["Tables"]["students"]["Row"];
+export type Facility = Database["public"]["Tables"]["facilities"]["Row"];

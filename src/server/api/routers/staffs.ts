@@ -8,14 +8,14 @@ const dataModel = z.object({
   code: z.string().optional(),
   dob: z.coerce.date().nullish(), // Date in ISO format
   gender: z.string().optional(),
-  employmentStatus: z.string().optional(),
+  employmentstatus: z.string().optional(),
   idcard: z.string().optional(),
   pid: z.string().optional(),
   email: z.string().optional(),
   phonenumber: z.string().optional(),
   ethnicity: z.string().optional(),
   religion: z.string().optional(),
-  socialInsuranceNumber: z.string().optional(),
+  socialinsurancenumber: z.string().optional(),
   address: z.string().optional(),
   hometown: z.string().optional()
 });
@@ -37,7 +37,7 @@ export const staffsRouter = createTRPCRouter({
   }),
 
   getById: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const { data, error } = await ctx.supabase.from("staffs").select("*").eq("code", input).single();
+    const { data, error } = await ctx.supabase.from("staffs").select("*").eq("id", input).single();
 
     if (error) {
       throw new Error(`Failed to retrieve staff with ID: ${error.message}`);
@@ -69,21 +69,25 @@ export const staffsRouter = createTRPCRouter({
 
   update: protectedProcedure
     .input(
-      z.object({
-        id: z.string().uuid(), // ID của trường học cần cập nhật
-        data: z.object({ ...dataModel.shape }).partial() // Dữ liệu trường học cần cập nhật
-      })
+      z
+        .object({
+          id: z.string()
+        })
+        .extend(dataModel.shape)
     )
     .mutation(async ({ ctx, input }) => {
-      const { error, data } = await ctx.supabase
+      const { id, ...data } = input;
+      const { error, data: updatedData } = await ctx.supabase
         .from("staffs")
-        .update(toEntity(input.data))
-        .eq("id", input.id)
+        .update(toEntity(data))
+        .eq("id", id)
         .single();
+
       if (error) {
-        throw new Error(`Failed to update school with ID ${input.id}: ${error.message}`);
+        throw new Error(`Failed to update school with ID ${id}: ${error.message}`);
       }
-      return { data, error }; // Trả về trường học sau khi cập nhật
+
+      return { data: updatedData }; // Return the updated school data
     }),
 
   delete: protectedProcedure.input(z.object({ id: z.string() })).mutation(async ({ ctx, input }) => {

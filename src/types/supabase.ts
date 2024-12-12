@@ -145,35 +145,35 @@ export type Database = {
       facilities: {
         Row: {
           classnumber: number | null
-          functionroom: boolean | null
+          functionroom: number | null
           id: string
           numberstaffrooms: number | null
-          otherfacilities: Json | null
-          projector: boolean | null
+          projector: number | null
           roomnumber: number | null
           school_code: string | null
+          semester: string | null
           tablenumber: number | null
         }
         Insert: {
           classnumber?: number | null
-          functionroom?: boolean | null
+          functionroom?: number | null
           id?: string
           numberstaffrooms?: number | null
-          otherfacilities?: Json | null
-          projector?: boolean | null
+          projector?: number | null
           roomnumber?: number | null
           school_code?: string | null
+          semester?: string | null
           tablenumber?: number | null
         }
         Update: {
           classnumber?: number | null
-          functionroom?: boolean | null
+          functionroom?: number | null
           id?: string
           numberstaffrooms?: number | null
-          otherfacilities?: Json | null
-          projector?: boolean | null
+          projector?: number | null
           roomnumber?: number | null
           school_code?: string | null
+          semester?: string | null
           tablenumber?: number | null
         }
         Relationships: [
@@ -383,7 +383,7 @@ export type Database = {
         Row: {
           class: string | null
           code: string | null
-          dob: string | null
+          dob: number | null
           ethnicity: string | null
           fullname: string | null
           gender: string | null
@@ -397,7 +397,7 @@ export type Database = {
         Insert: {
           class?: string | null
           code?: string | null
-          dob?: string | null
+          dob?: number | null
           ethnicity?: string | null
           fullname?: string | null
           gender?: string | null
@@ -411,7 +411,7 @@ export type Database = {
         Update: {
           class?: string | null
           code?: string | null
-          dob?: string | null
+          dob?: number | null
           ethnicity?: string | null
           fullname?: string | null
           gender?: string | null

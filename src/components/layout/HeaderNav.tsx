@@ -112,7 +112,7 @@ const HeaderNav: FC<Props> = ({ hasNav, desktopOpened, toggleDesktop, toggleMobi
     }
   };
 
-  const topLinks = [{ link: "", label: "" }];
+  const topLinks = [{ link: "/hosotruong", label: "Quản lí trường" }];
 
   const topNavTtems = topLinks.map((link) => {
     /* const menuItems = link.links?.map((item) => <Menu.Item key={item.link}>{item.label}</Menu.Item>);

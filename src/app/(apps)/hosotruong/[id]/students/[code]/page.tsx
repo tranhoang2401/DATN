@@ -13,12 +13,14 @@ const Update = ({ params }) => {
   const router = useRouter();
   const { notifyResult } = useNotify();
 
+  const { data: schoolData } = api.schools.getById.useQuery(params.id as string);
+
   const context = api.useUtils();
   const { mutateAsync: updatestudents, isLoading: updateLoading } = api.student.update.useMutation({
     onSuccess: async () => {
       await context.student.get.invalidate();
       notifyResult(Action.Update, "học sinh", true);
-      router.push(`/hosotruong/${params.school_code}/students`);
+      router.push(`/hosotruong/${schoolData?.id}/students`);
     },
     onError: (e) => {
       notifyResult(Action.Update, "học sinh", false, e.message);

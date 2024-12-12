@@ -24,18 +24,24 @@ const StudentForm: FC<Props> = ({ data, isSubmitting, onSubmit, onClose }) => {
   const { data: schoolData } = api.schools.getById.useQuery(params.id as string);
 
   const form = useForm({
-    initialValues: {
-      gradelevel: "",
-      class: "",
-      fullname: "",
-      code: "",
-      dob: null,
-      gender: "",
-      studentstatus: "",
-      ethnicity: "",
-      nationality: "",
-      permanentresidence: ""
-    },
+    initialValues: data
+      ? {
+          ...data,
+          dob: new Date(Number(data.dob))
+        }
+      : {
+          fullname: "",
+          school_code: "",
+          code: "",
+          dob: undefined, // Date in ISO format
+          gradelevel: undefined,
+          studentstatus: "",
+          class: "",
+          ethnicity: "",
+          nationality: "",
+          permanentresidenceaddress: "",
+          gender: ""
+        },
     validateInputOnChange: true,
     validate: {}
   });
@@ -59,7 +65,12 @@ const StudentForm: FC<Props> = ({ data, isSubmitting, onSubmit, onClose }) => {
           <Flex gap="xs" align={{ base: "stretch", sm: "flex-start" }} direction={{ base: "column", sm: "row" }}>
             <TextInput withAsterisk label="Họ và tên" {...form.getInputProps("fullname")} />
             <TextInput withAsterisk label="Mã học sinh" {...form.getInputProps("code")} />
-            <DateInput label="Ngày sinh" {...form.getInputProps("dob")} />
+            <DateInput
+              placeholder="Nhập ngày sinh"
+              label="Ngày sinh"
+              valueFormat="DD/MM/YYYY"
+              {...form.getInputProps("dob")}
+            />
           </Flex>
 
           <Flex gap="xs" align={{ base: "stretch", sm: "flex-start" }} direction={{ base: "column", sm: "row" }}>
@@ -71,13 +82,20 @@ const StudentForm: FC<Props> = ({ data, isSubmitting, onSubmit, onClose }) => {
               ]}
               {...form.getInputProps("gender")}
             />
-            <TextInput label="Tình trạng học sinh" {...form.getInputProps("studentstatus")} />
+            <Select
+              label="Trạng thái học sinh"
+              data={[
+                { value: "Đang học", label: "Đang học" },
+                { value: "Đã nghỉ học", label: "Đã nghỉ học" }
+              ]}
+              {...form.getInputProps("studentstatus")}
+            />
             <TextInput label="Dân tộc" {...form.getInputProps("ethnicity")} />
           </Flex>
 
           <Flex gap="xs" align={{ base: "stretch", sm: "flex-start" }} direction={{ base: "column", sm: "row" }}>
             <TextInput label="Quốc tịch" {...form.getInputProps("nationality")} />
-            <Textarea label="Nơi cư trú thường xuyên" {...form.getInputProps("permanentresidence")} />
+            <Textarea label="Nơi cư trú thường xuyên" {...form.getInputProps("permanentresidenceaddress")} />
           </Flex>
           <FormActions
             centered
