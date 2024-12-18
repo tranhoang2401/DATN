@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/components/layout/Header";
 import { TLinkList } from "@/components/layout/Navigation";
 import { IconChartBar } from "@tabler/icons-react";
 import { PropsWithChildren } from "react";
@@ -18,5 +19,10 @@ export default function AppLayout({ children }: PropsWithChildren) {
     }
   ];
 
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }

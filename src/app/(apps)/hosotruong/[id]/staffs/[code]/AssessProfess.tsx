@@ -15,7 +15,7 @@ import { MRT_PaginationState, MantineReactTable, type MRT_ColumnDef } from "mant
 import "mantine-react-table/styles.css";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import AccessProfessForm from "./assessprofess/AccessProfessForm";
+import AccessProfessForm from "./AccessProfessForm";
 
 const headers = [];
 
@@ -29,7 +29,9 @@ const AccessProcessPage = (params) => {
   const [globalFilter, setGlobalFilter] = useState("");
   const { confirmDelete, actionForm } = useModal();
 
-  const { data, isLoading, isFetching, isError } = api.accessProfess.getAll.useQuery(params.id as string);
+  const { data: staffData } = api.staffs.getById.useQuery(params.code);
+
+  const { data, isLoading, isFetching, isError } = api.accessProfess.getAll.useQuery(staffData?.id as string);
 
   console.log(data);
 
@@ -99,7 +101,7 @@ const AccessProcessPage = (params) => {
 
   const table = useCustomTable<AccessProcess>({
     columns,
-    data: [],
+    data: data ?? [],
     // rowCount: data?.count || 0,
     state: {
       isLoading,
@@ -132,7 +134,7 @@ const AccessProcessPage = (params) => {
                 isUpdating,
                 async (values) => {
                   const res = await update(values);
-                  if (!res.error) modals.close("update-AccessProcess");
+                  if (!res) modals.close("update-AccessProcess");
                 },
                 row.original,
                 "lg"

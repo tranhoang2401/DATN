@@ -8,18 +8,17 @@ import { useCustomTable } from "@/hooks/useCustomTable";
 import useModal from "@/hooks/useModal";
 import useNotify, { Action } from "@/hooks/useNotify";
 import { api } from "@/trpc/react";
-import { Staff } from "@/types";
+import { Discipline } from "@/types";
 import { Paper, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MRT_PaginationState, MantineReactTable, type MRT_ColumnDef } from "mantine-react-table";
 import "mantine-react-table/styles.css";
-import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import DisciplineForm from "./discipline/DisciplineForm";
+import DisciplineForm from "./DisciplineForm";
 
 const headers = [];
 
-const DisciplinePage = () => {
+const DisciplinePage = (params) => {
   const [pagination, setPagination] = useState<MRT_PaginationState>({
     pageIndex: 0,
     pageSize: 10
@@ -28,11 +27,10 @@ const DisciplinePage = () => {
   const { notifyResult } = useNotify();
   const [globalFilter, setGlobalFilter] = useState("");
   const { confirmDelete, actionForm } = useModal();
-  const params = useParams();
 
-  const { data, isLoading, isFetching, isError } = api.discipline.getAll.useQuery(params.code as string);
+  const { data: staffData } = api.staffs.getById.useQuery(params.code);
 
-  console.log(data);
+  const { data, isLoading, isFetching, isError } = api.discipline.getAll.useQuery(staffData?.id as string);
 
   const { mutateAsync: create, isLoading: isCreating } = api.discipline.create.useMutation({
     onSuccess: async () => {
@@ -66,17 +64,17 @@ const DisciplinePage = () => {
     }
   });
 
-  const handleDelete = async (row: Staff) => {
+  const handleDelete = async (row: Discipline) => {
     confirmDelete(
       "kỉ luật",
       async () => {
         await deleteOne({ id: row.id });
       },
-      row.name
+      row.disciplinetype
     );
   };
 
-  const columns = useMemo<MRT_ColumnDef<Staff>[]>(
+  const columns = useMemo<MRT_ColumnDef<Discipline>[]>(
     () => [
       {
         accessorKey: "code",
@@ -98,7 +96,7 @@ const DisciplinePage = () => {
     []
   );
 
-  const table = useCustomTable<Staff>({
+  const table = useCustomTable<Discipline>({
     columns,
     data: [],
     // rowCount: data?.count || 0,
@@ -128,7 +126,7 @@ const DisciplinePage = () => {
                 isUpdating,
                 async (values) => {
                   const res = await update(values);
-                  if (!res.error) modals.close("update-discipline");
+                  if (!res) modals.close("update-discipline");
                 },
                 row.original,
                 "lg"
@@ -162,7 +160,7 @@ const DisciplinePage = () => {
 
   return (
     <Stack>
-      <PageHeader title="Danh sách trường" />
+      <PageHeader title="Danh sách kỉ luật" />
 
       <Paper>
         <MantineReactTable table={table} />

@@ -32,7 +32,6 @@ const SchoolPage = () => {
   const { data: schoolData } = api.schools.getById.useQuery(params.id as string);
 
   const { data, isLoading, isFetching, isError } = api.staffs.get.useQuery(schoolData?.school_code as string);
-  console.log(data);
 
   const { mutateAsync: deleteOne, isLoading: isDeleting } = api.staffs.delete.useMutation({
     onSuccess: async () => {

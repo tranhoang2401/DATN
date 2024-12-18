@@ -15,11 +15,11 @@ import { MRT_PaginationState, MantineReactTable, type MRT_ColumnDef } from "mant
 import "mantine-react-table/styles.css";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import AdvancedTrainingForm from "./advancedtraining/AdvancedTrainingForm";
+import AdvancedTrainingForm from "./AdvancedTrainingForm";
 
 const headers = [];
 
-const AdvancedTrainingPage = () => {
+const AdvancedTrainingPage = (params) => {
   const [pagination, setPagination] = useState<MRT_PaginationState>({
     pageIndex: 0,
     pageSize: 10
@@ -28,11 +28,12 @@ const AdvancedTrainingPage = () => {
   const { notifyResult } = useNotify();
   const [globalFilter, setGlobalFilter] = useState("");
   const { confirmDelete, actionForm } = useModal();
-  const params = useParams();
 
-  const { data, isLoading, isFetching, isError } = api.advancedTraining.getAll.useQuery(params.code as string);
+  const { data: staffData } = api.staffs.getById.useQuery(params.code);
 
-  console.log(data);
+  const { data, isLoading, isFetching, isError } = api.advancedTraining.getAll.useQuery(staffData?.id as string);
+
+  console.log(params.code);
 
   const { mutateAsync: create, isLoading: isCreating } = api.advancedTraining.create.useMutation({
     onSuccess: async () => {
@@ -100,7 +101,7 @@ const AdvancedTrainingPage = () => {
 
   const table = useCustomTable<AdvancedTrain>({
     columns,
-    data: [],
+    data: data ?? [],
     // rowCount: data?.count || 0,
     state: {
       isLoading,
@@ -133,7 +134,7 @@ const AdvancedTrainingPage = () => {
                 isUpdating,
                 async (values) => {
                   const res = await update(values);
-                  if (!res.error) modals.close("update-AdvancedTraining");
+                  if (!res) modals.close("update-AdvancedTraining");
                 },
                 row.original,
                 "lg"

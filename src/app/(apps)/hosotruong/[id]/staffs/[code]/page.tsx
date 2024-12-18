@@ -8,10 +8,9 @@ import { api } from "@/trpc/react";
 import { Paper, Stack, Tabs } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import StaffForm from "../StaffForm";
-import AdvancedTrainingPage from "./advancedtraining/page";
-import DisciplineForm from "./discipline/DisciplineForm";
-import DisciplinePage from "./discipline/page";
-import AccessProcessPage from "./assessprofess/page";
+import AdvancedTrainingPage from "./AdvancedTraining";
+import DisciplinePage from "./Discipline";
+import AccessProcessPage from "./AssessProfess";
 
 const Update = ({ params }) => {
   const router = useRouter();
@@ -53,19 +52,19 @@ const Update = ({ params }) => {
           </Paper>
         </Tabs.Panel>
 
-        <Tabs.Panel value="workingProcess" pt="xs">
+        <Tabs.Panel value="advancedtraining" pt="xs">
           <Paper p={{ base: "md", md: "lg", xl: 24 }}>
             <AdvancedTrainingPage />
           </Paper>
         </Tabs.Panel>
 
-        <Tabs.Panel value="workingProcess" pt="xs">
+        <Tabs.Panel value="discipline" pt="xs">
           <Paper p={{ base: "md", md: "lg", xl: 24 }}>
             <DisciplinePage />
           </Paper>
         </Tabs.Panel>
 
-        <Tabs.Panel value="workingProcess" pt="xs">
+        <Tabs.Panel value="assessprofess" pt="xs">
           <Paper p={{ base: "md", md: "lg", xl: 24 }}>
             <AccessProcessPage />
           </Paper>

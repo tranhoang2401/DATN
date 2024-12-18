@@ -18,9 +18,9 @@ interface Props {
 }
 
 const DisciplineForm: FC<Props> = ({ data, isSubmitting, onSubmit, onClose }) => {
-  const { code } = useParams();
+  const params = useParams();
 
-  const { data: staffData, isLoading } = api.staffs.getById.useQuery(code as string);
+  const { data: staffData } = api.staffs.getById.useQuery(params.code as string);
   const form = useForm({
     initialValues: data
       ? {

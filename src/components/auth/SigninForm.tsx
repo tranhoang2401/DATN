@@ -64,7 +64,7 @@ export default function SigninForm() {
       setMessage({ text: success, color: "green" });
     }
 
-    setRedirectUrl(token ? `/invitations/${token}` : "/system");
+    setRedirectUrl(token ? `/invitations/${token}` : "/");
   }, [params]);
 
   const form = useForm({
